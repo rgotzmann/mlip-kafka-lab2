@@ -1,58 +1,185 @@
-# Lab 2: Kafka for Data Streaming
+Overview
+In this hands-on lab, you will work with Apache Kafka, a distributed streaming platform for large-scale, real-time data, and you’ll gain exposure to Docker containers. You will:
 
-In this lab, you will gain hands-on experience with Apache Kafka, a distributed streaming platform that plays a key role in processing large-scale real-time data. You will establish a connection to a Kafka broker, produce and consume messages, and explore Kafka command-line tools. This lab will prepare you for your group project, where you'll work with Kafka streams. 
+Use Docker to pull and run a local Kafka instance.
 
-To receive credit for this lab, show your work to the TA during recitation.
+Establish a secure connection to a Kafka broker.
 
-## Deliverables
-- [ ] Establish a secure SSH tunnel to the Kafka server. Explain to the TA the concepts of topic and offsets in Kafka and how this ensures message continuity if a consumer is disconnected.
-- [ ] Modify starter code to implement producer and consumer modes for a Kafka topic.
-- [ ] Demonstrate using Kafka's CLI tool *kcat* (or alternatives) to manage and monitor Kafka topics and messages.
+Produce and consume messages using Python.
 
+Explore Kafka command-line tools (e.g., kcat) for inspection and monitoring.
 
-## Getting started
-- Clone the starter code from this Git repository.
-- The repository includes a python notebook for Kafka producer and consumer model.
+This lab prepares you for the upcoming group project on Kafka streams. The notebook KafkaDemo.ipynb provides a step-by-step guide for Python interactions.
 
-## Connecting to Kafka server
-1. Use SSH to create a tunnel to the Kafka server (find remote_server, user, and password on the Canvas entry for this lab):  
-   `ssh -L <local_port>:localhost:<remote_port> <user>@<remote_server> -NTf`
-2. Test the Kafka server connection to ensure it's operational.
+Learning Objectives
+By the end of this lab, you will be able to:
 
-## Implementing Producer-Consumer Mode
-### 1. Producer Mode: Writes Data to Broker
-Refer TODO sections in the script. Edit the bootstrap servers and add 2-3 cities of your choice. Run the code to write to Kafka stream.
+Explain topics and offsets, and describe how they enable message continuity after consumer disconnects.
 
-### 2. Consumer Mode: Reads Data from Broker
-Modify the TODO section by filling appropriate parameters/arguments in the starter code. Verify `Kafka_log.csv`.  
+Configure and run a Python producer and consumer against a Kafka broker.
 
-Ref:  
-[KafkaProducer Documentation](https://kafka-python.readthedocs.io/en/master/apidoc/KafkaProducer.html)  
-[KafkaConsumer Documentation](https://kafka-python.readthedocs.io/en/master/apidoc/KafkaConsumer.html)
+Use kcat (or an equivalent CLI) to inspect, manage, and monitor topics and messages.
 
-## Using Kafka’s CLI tools
-`kcat` is a CLI (Command Line Interface). Previously known as kafkacat.  
-Install with your package installer such as:
-- macOS: `brew install kcat`
-- Ubuntu: `apt-get install kcat`
-- Note for Windows Users: Setting up kcat on Windows is complex. Please work in pairs with someone with mac/Ubuntu during recitation for this deliverable. The purpose is to understand CLI which will be helpful in the group project for using Kafka on Virtual machines (Linux based).
+Deliverables
+Connection Setup
 
-Using the kcat documentation, write a command that connects to the local Kafka broker, specifies a topic, and consumes messages from the earliest offset. 
+If you deployed Kafka on a remote server, cloud cluster, or a managed service, provide evidence of a secure SSH tunnel (command used, brief explanation, and a screenshot of an active tunnel).
 
-Ref:\
-  [kcat usage](https://docs.confluent.io/platform/current/app-development/kafkacat-usage.html)  
-  [kcat GitHub](https://github.com/edenhill/kcat)   
+Python Producer & Consumer
 
-## Optional but Recommended
-For your group project you will be reading movies from the Kafka stream. Try finding the list of all topics and then read some movielog streams to get an idea of what the data looks like:  
-`kcat -b localhost:9092 -L`
+Implement producer and consumer modes by modifying the provided starter code.
 
-## Additional resources
-- [Kafka Introduction Video 1](https://www.youtube.com/watch?v=PzPXRmVHMxI) <- Recommended video for a quick 5-min introduction to Kafka
-- [Kafka Introduction Video 2](https://www.youtube.com/watch?v=JalUUBKdcA0)
-- [Apache Kafka](https://kafka.apache.org/)
-- [Kafka for Beginners](https://www.cloudkarafka.com/blog/2016-11-30-part1-kafka-for-beginners-what-is-apache-kafka.html)
-- [What is Apache Kafka? - TIBCO](https://www.tibco.com/reference-center/what-is-apache-kafka)
-- [frequent bug list and solutions](./bug_list.md)
+Include:
 
+The final Python scripts/notebook cells.
+
+Sample output showing successful message production and consumption (with offsets).
+
+kcat (or CLI) Demonstration
+
+Show basic topic/message management and monitoring using kcat (or an approved alternative).
+
+Include commands executed and screenshots or captured output (e.g., create/list/describe topic, read messages from beginning).
+
+Getting Started
+1) Clone the Starter Repository
+Clone the starter code from this Git repository. (link unchanged)
+
+The repository includes a Python notebook demonstrating Kafka producer and consumer patterns.
+
+Note: If you encounter issues with kafka-python, uninstall it and install kafka-python-ng:
+
+pip uninstall -y kafka-python
+pip install kafka-python-ng
+
+2) Environment & Dependencies
+Use Python 3.9+ (recommended).
+
+Create/activate a virtual environment (optional but recommended).
+
+Install dependencies from requirements.txt:
+
+pip install -r requirements.txt
+Connecting to a remote Kafka Server (SSH Tunnel) - Not needed if you create your local containerized Kafka broker
+Use SSH to create a local tunnel to the remote Kafka broker (find remote_server, user, and password on the Canvas entry for this lab):
+
+ssh -L <local_port>:localhost:<remote_port> <user>@<remote_server> -NTf
+Replace placeholders with the provided values.
+
+Keep the tunnel open while running your producer/consumer locally.
+
+Test that the broker is reachable (e.g., with kcat -L, see below).
+
+ 
+
+Implementing Producer–Consumer Mode
+Follow the TODO blocks in the starter scripts/notebook.
+
+A) Producer Mode — Write Data to the Broker
+Set bootstrap servers (e.g., localhost:<local_port> if tunneling).
+
+Add 2–3 cities of your choice to publish as messages.
+
+Run the code to produce messages to your Kafka topic.
+
+Ref :
+
+KafkaProducer DocumentationLinks to an external site.
+
+B) Consumer Mode — Read Data from the Broker
+Fill the TODO for the consumer configuration/arguments (topic, bootstrap servers, group id, etc.).
+
+Run the consumer and verify output in Kafka_log.csv (as indicated in the starter).
+
+ 
+
+Ref:
+
+KafkaConsumer DocumentationLinks to an external site.
+
+ 
+
+Concepts to be researched and explained:
+
+Topic: Named stream of records, split into partitions.
+
+Offset: Monotonically increasing position within a partition.
+
+Continuity: Consumers track committed offsets; after a disconnect/restart, the consumer resumes from the last committed offset, avoiding duplicates (unless configured otherwise).
+
+ 
+
+Using Kafka’s CLI Tools
+kcat (formerly kafkacat)
+Install:
+
+macOS: brew install kcat
+
+Ubuntu: apt-get install kcat
+
+Windows note: Setting up kcat on Windows is non-trivial. For this deliverable, work in pairs with someone on macOS/Ubuntu during recitation. The goal is to understand CLI usage for the group project (Linux VMs).
+
+Task: Using the kcat documentation, write a command that connects to your (tunneled) local broker, selects your topic, and consumes from the earliest offset.
+
+Example (fill in your topic):
+
+kcat -b localhost:<local_port> -t <your_topic> -C -o beginning -q
+Other useful commands:
+
+List metadata & topics:
+
+kcat -b localhost:<local_port> -L
+Produce a few test messages from stdin (quick sanity check):
+
+seq 1 5 | kcat -b localhost:<local_port> -t <your_topic>
+ 
+
+Ref:
+
+kcat usageLinks to an external site.
+
+kcat GitHubLinks to an external site.
+
+ 
+
+Optional but Recommended
+For your group project you’ll read movie data from Kafka. Try:
+
+Listing all topics:
+
+kcat -b localhost:9092 -L
+If a movielog topic exists on your environment, consume a few messages to inspect the schema and typical fields.
+
+ 
+
+Validation & Tips
+Broker reachable? kcat -b localhost:<local_port> -L should display metadata.
+
+Producer working? After running your producer code, consume with kcat from -o beginning to see your messages.
+
+Consumer continuity? Start consumer → read some messages → stop → produce more → restart consumer and observe it continue from the next offset.
+
+ 
+
+Troubleshooting
+Connection refused/timeouts: Confirm SSH tunnel is active and ports match your client config.
+
+Auth or version mismatch: Ensure client/broker compatibility and correct security settings if your environment requires them.
+
+Empty consumption: Check the topic name, partition count, and whether you’re reading from -o beginning vs. the end.
+
+Windows CLI issues: Use a Linux/macOS host or pair up during recitation for the kcat portion.
+
+ 
+
+Additional Resources
+Apache KafkaLinks to an external site.
+Kafka for BeginnersLinks to an external site.
+What is Apache Kafka? - TIBCOLinks to an external site.
+Kafka Introduction Video 1Links to an external site.
+
+ <- Recommended video for a quick 5-min introduction to Kafka
+Kafka Introduction Video 2Links to an external site.
+
+Docker Installation and Local Kafka.pdf
 
